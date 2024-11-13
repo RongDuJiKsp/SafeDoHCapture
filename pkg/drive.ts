@@ -6,6 +6,7 @@ import {linux} from "./platform";
 export class drive {
 
     static chrome(options: BrowserOptions): Promise<WebDriver> {
+        console.log("using chrome");
         const opt = new ChromeOptions();
         if (options.headless) {
             opt.addArguments("--headless")
@@ -30,6 +31,7 @@ export class drive {
     }
 
     static async firefox(options: BrowserOptions): Promise<Promise<WebDriver>> {
+        console.log("using firefox");
         const opt = new FirefoxOptions();
         if (linux.is()) {
             opt.setBinary(await linux.whereIs("firefox"))
