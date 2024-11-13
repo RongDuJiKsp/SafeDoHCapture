@@ -1,16 +1,18 @@
-import {Browser, Builder, ThenableWebDriver} from "selenium-webdriver";
+import {Browser, Builder, WebDriver} from "selenium-webdriver";
 import {Options as ChromeOptions} from "selenium-webdriver/chrome";
 import {Options as FirefoxOptions} from "selenium-webdriver/firefox";
+import {linux} from "./linux";
 
 export class drive {
 
-    static chrome(options: BrowserOptions): ThenableWebDriver {
+    static chrome(options: BrowserOptions): Promise<WebDriver> {
         const opt = new ChromeOptions();
         if (options.headless) {
             opt.addArguments("--headless")
             opt.addArguments('--disable-gpu'); // GPU加速在无头模式下无用
         }
         if (options.unsafe) {
+            opt.addArguments("--no-sandbox")
             opt.addArguments('--ignore-certificate-errors'); // 忽略SSL证书错误
             opt.addArguments('--allow-insecure-localhost'); // 允许不安全的本地地址
             opt.addArguments('--disable-web-security'); // 禁用跨域检查
@@ -27,8 +29,11 @@ export class drive {
         return new Builder().forBrowser(Browser.CHROME).setChromeOptions(opt).build()
     }
 
-    static firefox(options: BrowserOptions): ThenableWebDriver {
+    static async firefox(options: BrowserOptions): Promise<WebDriver> {
         const opt = new FirefoxOptions();
+        if (linux.is()) {
+            opt.setBinary(await linux.whereIs("firefox"))
+        }
         if (options.headless) {
             opt.addArguments("--headless")
         }
