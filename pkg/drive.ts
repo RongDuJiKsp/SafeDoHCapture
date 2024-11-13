@@ -1,7 +1,7 @@
 import {Browser, Builder, WebDriver} from "selenium-webdriver";
 import {Options as ChromeOptions} from "selenium-webdriver/chrome";
 import {Options as FirefoxOptions} from "selenium-webdriver/firefox";
-import {linux} from "./linux";
+import {linux} from "./platform";
 
 export class drive {
 
