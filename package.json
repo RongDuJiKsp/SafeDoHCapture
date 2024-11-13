@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "run": "npx ts-node index.ts"
+  },
   "dependencies": {
     "csv-parser": "^3.0.0",
     "mocha": "10.8.2",
