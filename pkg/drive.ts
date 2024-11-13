@@ -1,7 +1,7 @@
 import {Browser, Builder, WebDriver} from "selenium-webdriver";
 import {Options as ChromeOptions} from "selenium-webdriver/chrome";
-import {Options as FirefoxOptions} from "selenium-webdriver/firefox";
-import {linux} from "./platform";
+import {Options as FirefoxOptions, ServiceBuilder as FirefoxServiceBuilder} from "selenium-webdriver/firefox";
+import {linux, platform_fs} from "./platform";
 
 export class drive {
 
@@ -33,6 +33,7 @@ export class drive {
     static async firefox(options: BrowserOptions): Promise<Promise<WebDriver>> {
         console.log("using firefox");
         const opt = new FirefoxOptions();
+        const sv = new FirefoxServiceBuilder(await platform_fs.whereIs("geckodriver"))
         if (linux.is()) {
             const path = await linux.whereIs("firefox");
             opt.setBinary(path)
@@ -55,8 +56,9 @@ export class drive {
             opt.setPreference("network.trr.mode", 2); // 启用 DoH，2 代表启用并使用 DoH 请求
             opt.setPreference("network.trr.uri", options.dohServer); // 设置 DoH 服务器
         }
-        return new Builder().forBrowser(Browser.FIREFOX).setFirefoxOptions(opt).build()
+        return new Builder().forBrowser(Browser.FIREFOX).setFirefoxService(sv).setFirefoxOptions(opt).build()
     }
+
 }
 
 export interface BrowserOptions {

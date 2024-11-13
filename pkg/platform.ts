@@ -53,3 +53,14 @@ export class windows {
         });
     }
 }
+
+export class platform_fs {
+    static async whereIs(execFile: string): Promise<string> {
+        if (windows.is()) {
+            return windows.whereIs(execFile)
+        } else if (linux.is()) {
+            return linux.whereIs(execFile)
+        }
+        throw new Error("not supported");
+    }
+}
