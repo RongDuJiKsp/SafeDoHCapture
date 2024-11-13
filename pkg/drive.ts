@@ -6,7 +6,7 @@ import {linux} from "./platform";
 export class drive {
 
     static chrome(options: BrowserOptions): Promise<WebDriver> {
-        console.log("using chrome");
+        console.log("using chrome:");
         const opt = new ChromeOptions();
         if (options.headless) {
             opt.addArguments("--headless")
@@ -34,7 +34,9 @@ export class drive {
         console.log("using firefox");
         const opt = new FirefoxOptions();
         if (linux.is()) {
-            opt.setBinary(await linux.whereIs("firefox"))
+            const path = await linux.whereIs("firefox");
+            opt.setBinary(path)
+            console.log("set executable as " + path)
         }
         if (options.headless) {
             opt.addArguments("--headless")
