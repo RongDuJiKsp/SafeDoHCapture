@@ -1,4 +1,4 @@
-import {Browser, ThenableWebDriver} from "selenium-webdriver";
+import {Browser, WebDriver} from "selenium-webdriver";
 import {BrowserOptions, drive} from "./drive";
 
 const dohProviders: string[] = [
@@ -22,7 +22,7 @@ export class rand {
         return drivers[Math.floor(Math.random() * drivers.length)];
     }
 
-    static makeRandDriver(options: BrowserOptions): ThenableWebDriver {
+    static async makeRandDriver(options: BrowserOptions): Promise<Promise<WebDriver>> {
         switch (rand.randDriver()) {
             case "chrome":
                 return drive.chrome(options)

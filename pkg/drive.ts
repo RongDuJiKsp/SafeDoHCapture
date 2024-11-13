@@ -29,7 +29,7 @@ export class drive {
         return new Builder().forBrowser(Browser.CHROME).setChromeOptions(opt).build()
     }
 
-    static async firefox(options: BrowserOptions): Promise<WebDriver> {
+    static async firefox(options: BrowserOptions): Promise<Promise<WebDriver>> {
         const opt = new FirefoxOptions();
         if (linux.is()) {
             opt.setBinary(await linux.whereIs("firefox"))
