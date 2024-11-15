@@ -26,6 +26,22 @@ export class drive {
             opt.addArguments('--dns-over-https');  // 启用 DoH
             opt.addArguments('--doh-url=' + options.dohServer);  // 设置 DoH 服务器，
         }
+        if (options.noAssetsLoad) {
+            opt.setUserPreferences({
+                'profile.managed_default_content_settings.images': 2,  // 2 = 禁用图片加载
+            });
+        }
+        if (options.onlyHtml) {
+            opt.setUserPreferences({
+                'profile.managed_default_content_settings.images': 2,  // 2 = 禁用图片加载
+                'profile.managed_default_content_settings.javascript': 2, // 2 = 禁用JavaScript
+                'profile.managed_default_content_settings.stylesheets': 2,  // 2 = 禁用CSS加载
+                'profile.managed_default_content_settings.fonts': 2,  // 2 = 禁用字体加载
+            });
+        }
+        if (options.enableSkipOfPageLoad) {
+            opt.setPageLoadStrategy('none');
+        }
 
         return new Builder().forBrowser(Browser.CHROME).setChromeOptions(opt).build()
     }
@@ -56,6 +72,17 @@ export class drive {
             opt.setPreference("network.trr.mode", 2); // 启用 DoH，2 代表启用并使用 DoH 请求
             opt.setPreference("network.trr.uri", options.dohServer); // 设置 DoH 服务器
         }
+        if (options.noAssetsLoad) {
+            opt.setPreference('permissions.default.image', 2); // 2 = 禁用图片加载
+        }
+        if (options.onlyHtml) {
+            opt.setPreference('permissions.default.image', 2); // 2 = 禁用图片加载
+            opt.setPreference('javascript.enabled', false);
+            opt.setPreference('permissions.default.stylesheet', 2); // 2 = 禁用CSS加载
+        }
+        if (options.enableSkipOfPageLoad) {
+            opt.setPageLoadStrategy('none');
+        }
         return new Builder().forBrowser(Browser.FIREFOX).setFirefoxService(sv).setFirefoxOptions(opt).build()
     }
 
@@ -66,4 +93,7 @@ export interface BrowserOptions {
     dohServer?: string
     unsafe?: boolean
     noDNSCache?: boolean
+    noAssetsLoad?: boolean
+    onlyHtml?: boolean
+    enableSkipOfPageLoad?: boolean
 }

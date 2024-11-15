@@ -9,7 +9,13 @@ export async function main() {
         console.log("Start Request")
         const provider = rand.dohProvider();
         console.log("Use " + provider + " As DoH Provider")
-        const session = await drive.chrome({dohServer: provider, noDNSCache: true, unsafe: true, headless: true})
+        const session = await drive.chrome({
+            dohServer: provider,
+            noDNSCache: true,
+            unsafe: true,
+            headless: true,
+            noAssetsLoad: true
+        })
         console.log("Start Successful")
         for (const reqUrl of req.inner) {
             console.log("Nav to " + reqUrl)
