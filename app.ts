@@ -34,6 +34,7 @@ export async function main() {
                 console.log("error: " + e);
             }
         }
+        await session.close();
     }
 }
 
