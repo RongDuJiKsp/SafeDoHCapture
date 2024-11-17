@@ -1,6 +1,5 @@
 import {torequest} from "./pkg/toreq";
 import {rand} from "./pkg/rand";
-import {drive} from "./pkg/drive";
 import {platform_fs} from "./pkg/platform";
 
 export async function main() {
@@ -11,7 +10,7 @@ export async function main() {
         const provider = rand.dohProvider();
         console.log("Use " + provider + " As DoH Provider")
         try {
-            const session = await drive.firefox({
+            const session = await rand.makeRandDriver({
                 dohServer: provider,
                 noDNSCache: true,
                 unsafe: true,
