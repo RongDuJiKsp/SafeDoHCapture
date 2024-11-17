@@ -36,7 +36,7 @@ export async function main() {
                             await session.get(reqUrl.replace("https://", "http://"));
                             title = await session.getTitle();
                         } catch (e) {
-
+                            console.log(e)
                         }
                     }
                     console.log("title of " + reqUrl + " is " + title);
