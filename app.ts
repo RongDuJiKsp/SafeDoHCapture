@@ -22,6 +22,7 @@ export async function main() {
                 },
                 driver: "/root/.cargo/bin/geckodriver"
             })
+            await session.manage().setTimeouts({pageLoad: 6000})
             console.log("Start Successful")
             for (const reqUrl of req.inner) {
                 console.log("Nav to " + reqUrl)
@@ -31,8 +32,12 @@ export async function main() {
                         await session.get(reqUrl);
                         title = await session.getTitle();
                     } catch (e) {
-                        await session.get(reqUrl.replace("https://", "http://"));
-                        title = await session.getTitle();
+                        try {
+                            await session.get(reqUrl.replace("https://", "http://"));
+                            title = await session.getTitle();
+                        } catch (e) {
+
+                        }
                     }
                     console.log("title of " + reqUrl + " is " + title);
 
