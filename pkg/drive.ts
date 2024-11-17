@@ -1,5 +1,5 @@
 import {Browser, Builder, WebDriver} from "selenium-webdriver";
-import {Options as ChromeOptions} from "selenium-webdriver/chrome";
+import {Options as ChromeOptions, ServiceBuilder as ChromeServiceBuilder} from "selenium-webdriver/chrome";
 import {Options as FirefoxOptions, ServiceBuilder as FirefoxServiceBuilder} from "selenium-webdriver/firefox";
 import {DriveType} from "./rand";
 
@@ -8,6 +8,10 @@ export class drive {
     static chrome(options: BrowserOptions): Promise<WebDriver> {
         console.log("using chrome:");
         const opt = new ChromeOptions();
+        const sv = new ChromeServiceBuilder(options.driver)
+        if (options.driver) {
+            console.log("using drover as " + options.driver)
+        }
         if (options.exec && options.exec['chrome']) {
             opt.setBinaryPath(options.exec['chrome'])
             console.log("set exec as " + options.exec['chrome'])
@@ -47,13 +51,16 @@ export class drive {
             opt.setPageLoadStrategy('none');
         }
         console.log("Building..")
-        return new Builder().forBrowser(Browser.CHROME).setChromeOptions(opt).build()
+        return new Builder().forBrowser(Browser.CHROME).setChromeOptions(opt).setChromeService(sv).build()
     }
 
     static async firefox(options: BrowserOptions): Promise<Promise<WebDriver>> {
         console.log("using firefox");
         const opt = new FirefoxOptions();
         const sv = new FirefoxServiceBuilder(options.driver)
+        if (options.driver) {
+            console.log("using drover as " + options.driver)
+        }
         if (options.exec && options.exec['firefox']) {
             opt.setBinary(options.exec['firefox'])
             console.log("set exec as " + options.exec['firefox'])
