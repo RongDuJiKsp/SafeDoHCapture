@@ -13,8 +13,8 @@ export async function main() {
             dohServer: provider,
             noDNSCache: true,
             unsafe: true,
-            headless: true,
-            noAssetsLoad: true
+            headless: false,
+            enableSkipOfPageLoad: true
         })
         console.log("Start Successful")
         for (const reqUrl of req.inner) {
