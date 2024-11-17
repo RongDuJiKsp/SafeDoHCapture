@@ -8,6 +8,10 @@ export class drive {
     static chrome(options: BrowserOptions): Promise<WebDriver> {
         console.log("using chrome:");
         const opt = new ChromeOptions();
+        if (options.exec && options.exec['chrome']) {
+            opt.setBinaryPath(options.exec['chrome'])
+            console.log("set exec as " + options.exec['chrome'])
+        }
         if (options.headless) {
             opt.addArguments("--headless")
             opt.addArguments('--disable-gpu'); // GPU加速在无头模式下无用
@@ -50,6 +54,10 @@ export class drive {
         console.log("using firefox");
         const opt = new FirefoxOptions();
         const sv = new FirefoxServiceBuilder(options.driver)
+        if (options.exec && options.exec['firefox']) {
+            opt.setBinary(options.exec['firefox'])
+            console.log("set exec as " + options.exec['firefox'])
+        }
         if (options.headless) {
             opt.addArguments("--headless")
         }
@@ -93,5 +101,5 @@ export interface BrowserOptions {
     onlyHtml?: boolean
     enableSkipOfPageLoad?: boolean
     driver?: string
-    exec?: Record<DriveType, string>
+    exec?: Record<DriveType, string | undefined>
 }

@@ -1,6 +1,7 @@
 import {torequest} from "./pkg/toreq";
 import {rand} from "./pkg/rand";
 import {drive} from "./pkg/drive";
+import {platform_fs} from "./pkg/platform";
 
 export async function main() {
     console.log("Reading Website")
@@ -15,7 +16,11 @@ export async function main() {
                 noDNSCache: true,
                 unsafe: true,
                 headless: true,
-                enableSkipOfPageLoad: true
+                enableSkipOfPageLoad: true,
+                exec: {
+                    chrome: undefined,
+                    firefox: await platform_fs.whereIs("firefox-esr")
+                }
             })
             console.log("Start Successful")
             for (const reqUrl of req.inner) {
