@@ -1,7 +1,7 @@
 import {Browser, Builder, WebDriver} from "selenium-webdriver";
 import {Options as ChromeOptions} from "selenium-webdriver/chrome";
 import {Options as FirefoxOptions, ServiceBuilder as FirefoxServiceBuilder} from "selenium-webdriver/firefox";
-import {linux, platform_fs} from "./platform";
+import {DriveType} from "./rand";
 
 export class drive {
 
@@ -49,12 +49,7 @@ export class drive {
     static async firefox(options: BrowserOptions): Promise<Promise<WebDriver>> {
         console.log("using firefox");
         const opt = new FirefoxOptions();
-        const sv = new FirefoxServiceBuilder(await platform_fs.whereIs("geckodriver"))
-        if (linux.is()) {
-            const path = await linux.whereIs("firefox");
-            opt.setBinary(path)
-            console.log("set executable as " + path)
-        }
+        const sv = new FirefoxServiceBuilder(options.driver)
         if (options.headless) {
             opt.addArguments("--headless")
         }
@@ -97,4 +92,6 @@ export interface BrowserOptions {
     noAssetsLoad?: boolean
     onlyHtml?: boolean
     enableSkipOfPageLoad?: boolean
+    driver?: string
+    exec?: Record<DriveType, string>
 }

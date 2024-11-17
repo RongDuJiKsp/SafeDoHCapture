@@ -11,7 +11,8 @@ const dohProviders: string[] = [
     'https://dns-unfiltered.adguard.com/dns-query',
     'https://dns.quad9.net/dns-query'
 ];
-const drivers = [Browser.CHROME, Browser.FIREFOX];
+export const drivers = [Browser.CHROME, Browser.FIREFOX] as const;
+export type DriveType = typeof drivers[number]
 
 export class rand {
     static dohProvider(): string {
