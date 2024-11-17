@@ -18,7 +18,7 @@ export async function main() {
                 headless: true,
                 enableSkipOfPageLoad: true,
                 exec: {
-                    chrome: undefined,
+                    chrome: await platform_fs.whereIs("google-chrome-stable"),
                     firefox: await platform_fs.whereIs("firefox-esr")
                 },
                 driver: os.homedir() + "/.cargo/bin/geckodriver"
