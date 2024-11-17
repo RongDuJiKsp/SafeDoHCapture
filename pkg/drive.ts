@@ -42,7 +42,7 @@ export class drive {
         if (options.enableSkipOfPageLoad) {
             opt.setPageLoadStrategy('none');
         }
-
+        console.log("Building..")
         return new Builder().forBrowser(Browser.CHROME).setChromeOptions(opt).build()
     }
 
