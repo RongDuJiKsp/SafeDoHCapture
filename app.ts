@@ -19,7 +19,8 @@ export async function main() {
                 exec: {
                     chrome: undefined,
                     firefox: await platform_fs.whereIs("firefox-esr")
-                }
+                },
+                driver: "/root/.cargo/bin/geckodriver"
             })
             console.log("Start Successful")
             for (const reqUrl of req.inner) {
