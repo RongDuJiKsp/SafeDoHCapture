@@ -83,6 +83,7 @@ export class drive {
         if (options.enableSkipOfPageLoad) {
             opt.setPageLoadStrategy('none');
         }
+        console.log("building")
         return new Builder().forBrowser(Browser.FIREFOX).setFirefoxService(sv).setFirefoxOptions(opt).build()
     }
 
