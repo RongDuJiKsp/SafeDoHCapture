@@ -9,7 +9,7 @@ export async function main() {
         console.log("Start Request")
         const provider = rand.dohProvider();
         console.log("Use " + provider + " As DoH Provider")
-        const session = await drive.chrome({
+        const session = await drive.firefox({
             dohServer: provider,
             noDNSCache: true,
             unsafe: true,
