@@ -9,32 +9,39 @@ export async function main() {
         console.log("Start Request")
         const provider = rand.dohProvider();
         console.log("Use " + provider + " As DoH Provider")
-        const session = await drive.chrome({
-            dohServer: provider,
-            noDNSCache: true,
-            unsafe: true,
-            headless: true,
-            enableSkipOfPageLoad: true
-        })
-        console.log("Start Successful")
-        for (const reqUrl of req.inner) {
-            console.log("Nav to " + reqUrl)
-            try {
-                let title: string = "";
+        try {
+            const session = await drive.chrome({
+                dohServer: provider,
+                noDNSCache: true,
+                unsafe: true,
+                headless: true,
+                enableSkipOfPageLoad: true
+            })
+            console.log("Start Successful")
+            for (const reqUrl of req.inner) {
+                console.log("Nav to " + reqUrl)
                 try {
-                    await session.get(reqUrl);
-                    title = await session.getTitle();
-                } catch (e) {
-                    await session.get(reqUrl.replace("https://", "http://"));
-                    title = await session.getTitle();
-                }
-                console.log("title of " + reqUrl + " is " + title);
+                    let title: string = "";
+                    try {
+                        await session.get(reqUrl);
+                        title = await session.getTitle();
+                    } catch (e) {
+                        await session.get(reqUrl.replace("https://", "http://"));
+                        title = await session.getTitle();
+                    }
+                    console.log("title of " + reqUrl + " is " + title);
 
-            } catch (e) {
-                console.log("error: " + e);
+                } catch (e) {
+                    console.log("error: " + e);
+                }
             }
+            console.log("Success Request")
+            await session.close();
+            console.log("Restarting")
+        } catch (e) {
+            console.log(e)
+            console.log("Restarting")
         }
-        await session.close();
     }
 }
 
