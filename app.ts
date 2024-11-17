@@ -1,6 +1,7 @@
 import {torequest} from "./pkg/toreq";
 import {rand} from "./pkg/rand";
 import {platform_fs} from "./pkg/platform";
+import * as os from "node:os";
 
 export async function main() {
     console.log("Reading Website")
@@ -20,7 +21,7 @@ export async function main() {
                     chrome: undefined,
                     firefox: await platform_fs.whereIs("firefox-esr")
                 },
-                driver: "/root/.cargo/bin/geckodriver"
+                driver: os.homedir() + "/.cargo/bin/geckodriver"
             })
             await session.manage().setTimeouts({pageLoad: 6000})
             console.log("Start Successful")
