@@ -7,10 +7,11 @@ export class drive {
 
     static chrome(options: BrowserOptions): Promise<WebDriver> {
         console.log("using chrome:");
+        const dv = options.execDriver?.['chrome'] ?? options.driver;
         const opt = new ChromeOptions();
-        const sv = new ChromeServiceBuilder(options.driver)
-        if (options.driver) {
-            console.log("using drover as " + options.driver)
+        const sv = new ChromeServiceBuilder(dv)
+        if (dv) {
+            console.log(dv)
         }
         if (options.exec && options.exec['chrome']) {
             opt.setBinaryPath(options.exec['chrome'])
@@ -56,10 +57,11 @@ export class drive {
 
     static async firefox(options: BrowserOptions): Promise<Promise<WebDriver>> {
         console.log("using firefox");
+        const dv = options.execDriver?.['chrome'] ?? options.driver;
         const opt = new FirefoxOptions();
-        const sv = new FirefoxServiceBuilder(options.driver)
-        if (options.driver) {
-            console.log("using drover as " + options.driver)
+        const sv = new FirefoxServiceBuilder(dv)
+        if (dv) {
+            console.log(dv)
         }
         if (options.exec && options.exec['firefox']) {
             opt.setBinary(options.exec['firefox'])
@@ -108,5 +110,6 @@ export interface BrowserOptions {
     onlyHtml?: boolean
     enableSkipOfPageLoad?: boolean
     driver?: string
+    execDriver?: Record<DriveType, string | undefined>
     exec?: Record<DriveType, string | undefined>
 }
